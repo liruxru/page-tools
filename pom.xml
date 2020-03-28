@@ -19,6 +19,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <docker.image.prefix>tls</docker.image.prefix>
+        <docker.repository>192.168.90.141:5000</docker.repository>
     </properties>
 
     <dependencies>
@@ -135,7 +136,10 @@
                      </execution>
                  </executions>-->
                 <configuration>
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <serverId>docker-test-repository</serverId>
+                    <registryUrl>${docker.repository}</registryUrl>
+                    <pushImage>true</pushImage>
+                    <imageName>${docker.repository}/${docker.image.prefix}/${project.artifactId}</imageName>
                     <imageTags>
                         <imageTag>0.0.1</imageTag>
                     </imageTags>
