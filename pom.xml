@@ -134,11 +134,10 @@
                 <configuration>
                     <serverId>docker-test-repository</serverId>
                     <registryUrl>${docker.repository}</registryUrl>
-                    <!--<pushImage>true</pushImage>-->
-                    <imageName>${docker.repository}/${docker.image.prefix}/${project.artifactId}</imageName>
-                    <imageTags>
-                        <imageTag>0.0.2</imageTag>
-                    </imageTags>
+                    <!--docker:build 自动push-->
+                   <!-- <pushImage>true</pushImage>-->
+                    <imageName>${docker.repository}/${docker.image.prefix}/${project.artifactId}:v1</imageName>
+
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                     <!-- 解决Connect to localhost:2375的问题的其中一种方式，注意要跟docker 环境信息相一致 -->
                     <!-- <dockerHost>https://192.168.99.100:2376</dockerHost>-->
