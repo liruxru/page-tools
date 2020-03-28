@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet"
+          href="webjars/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="bootstrap-table/bootstrap-table.css">
+    <link href="bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
+</head>
+<body class="container">
+<h1>pre测试发送界面</h1>
+
+<div class="row fun">
+    <h4>PLC单点写入功能</h4>
+
+    <form id="myForm" style="width: 300px" onsubmit="return false;">
+        <div class="form-group">
+            <label for="pointId">输入点号</label>
+            <input type="text" class="form-control" id="pointId" name="pointId" placeholder="输入点号">
+        </div>
+        <div class="form-group">
+            <label for="pointId">输入点号结束值</label>
+            <input type="text" class="form-control" id="pointIdEnd" name="pointId" placeholder="输入点号">
+        </div>
+        <div class="form-group">
+            <label for="rawValue">输入点值</label>
+            <input class="form-control" id="rawValue" name="rawValue" placeholder="输入点值">
+        </div>
+        <div class="form-group">
+            <label for="times">输入刷新频率</label>
+            <input class="form-control" id="times" name="times" placeholder="输入刷新频率">
+        </div>
+
+        <button id="toSubmit" class="btn btn-default">提交</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="stop" class="btn btn-default">停止</button>
+    </form>
+
+</div>
+
+
+<script src="webjars/jquery/3.1.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="bootstrap-table/bootstrap-table.js"></script>
+<script src="bootstrap3-editable/js/bootstrap-editable.js"></script>
+<script src="bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
+
+<script>
+
+    $(function () {
+
+        function post2WritePoint() {
+            // alert(1)
+            var form = $("#myForm").serialize();
+            var pointId = $("#pointId").val();
+            var val = $("#rawValue").val();
+            $("#rawValue").val(val*1+1);
+            let val1 = $("#pointIdEnd").val();
+            var data = {"pointId":pointId,"rawValue":val,"pointIdEnd":val1};
+            $.ajax({
+                type: 'post',
+                data: data,
+                url: 'writePoints',
+                dataType: 'JSON',
+                success: function (data) {
+                    if ("fail" != data) {
+                        console.log("ok")
+                    } else {
+                        console.log("fail")
+                    }
+                }
+            })
+        }
+        var id = null;
+        $("#toSubmit").click(function () {
+            var times = $('#times').val();
+            id = setInterval(post2WritePoint, times)
+
+
+        });
+
+        $("#stop").click(function(){
+            if(id){
+                clearInterval(id);
+                id= null;
+                console.log("停止发送");
+            }
+        })
+
+    })
+
+</script>
+
+</body>
+</html>

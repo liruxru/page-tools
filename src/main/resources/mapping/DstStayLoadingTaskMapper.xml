@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mt.tlstools.mapper.dst.DstStayLoadingTaskMapper">
+    <update id="updateNewDbTask">
+        update stay_loading_task set  loading_mode = 0,
+        target_calorific_value = #{targetCalorificValue} where
+        task_num = #{taskNum}
+    </update>
+    <update id="updateNewDbCarriage">
+          update carriage_info
+          set actual_load = #{actualLoad},
+           gross_weight = #{grossWeight},
+            deviation = #{deviation},
+             partial_load = #{partialLoad},
+              overload_capacity = #{overloadCapacity},
+               load_status = #{loadStatus},
+                auto_status = #{autoStatus},
+                average_speed  =#{averageSpeed},
+            load_use_time = #{loadUseTime}
+          where
+        task_num = #{taskNum} and train_num = #{trainNum} and mqdelete = 0
+    </update>
+
+
+    <select id="selectAll" resultType="com.mt.tlstools.pojo.StayLoadingTask">
+        select * from stay_loading_task
+    </select>
+    <select id="selectTaskLoadNow" resultType="com.mt.tlstools.pojo.TaskVo">
+ select
+        task_num as taskNum,
+        train_num as trainNum,
+        train_num_total as trainNumTotal,
+        load_line as loadLine,
+        case load_line when "400013"
+        then "装车站二"
+        else "装车站一"  end as loadLineName
+
+        from stay_loading_task where task_state = 3 and loading_mode = 0 and (is_parent !='1' or is_parent is null)
+    </select>
+    <select id="selectCarriageByTaskNum" resultType="com.mt.tlstools.pojo.Carriage">
+        select
+        task_num as taskNum,
+        order_num  as orderNum,
+         train_num        as trainNum
+
+        from carriage_info where task_num = #{taskNum} order by order_num
+    </select>
+
+
+</mapper>
