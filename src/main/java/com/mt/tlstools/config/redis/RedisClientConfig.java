@@ -64,13 +64,13 @@ public class RedisClientConfig {
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.redis.redis-pre")
+    @ConfigurationProperties(prefix = "spring.redis.redis1")
     public RedisStandaloneConfiguration redisConfigA(){
         return new RedisStandaloneConfiguration();
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.redis.redis-tls")
+    @ConfigurationProperties(prefix = "spring.redis.redis2")
     public RedisStandaloneConfiguration redisConfigB(){
         return new RedisStandaloneConfiguration();
     }

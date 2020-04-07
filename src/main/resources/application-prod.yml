@@ -61,13 +61,14 @@ spring:
       database1:
         host: 192.168.10.200
         port: 27017
+        database: mtloadpre
         username: mtload
         password: mtload
-        database: mtload
+
       database2:
         host: 192.168.10.162
         port: 27017
-        database: mtload
+        database: mtloadpre
         username: mtload
         password: mtload
   redis:
@@ -80,12 +81,12 @@ spring:
         test-on-borrow: true
         test-on-return: true
         test-while-idle: true
-    redis-pre:
+    redis1:
       port: 6379
       timeout: 5000
       database: 0
       hostName: 192.168.10.100
-    redis-tls:
+    redis2:
       port: 6379
       timeout: 5000
       database: 0

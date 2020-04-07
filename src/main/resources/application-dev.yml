@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     database1:
-      url: jdbc:mysql://192.168.7.21:3306/mtload-task-master?useUnicode=true&characterEncoding=utf8
+      url: jdbc:mysql://192.168.7.16:3306/mtload?useUnicode=true&characterEncoding=utf8
       username: root
       password: mtload
       driverClassName: com.mysql.jdbc.Driver
@@ -31,7 +31,7 @@ spring:
         #配置监控统计拦截的filters，去掉后监控界面sql将无法统计,'wall'用于防火墙
         filters: stat,wall,slf4j
     database2:
-      url: jdbc:mysql://192.168.7.11:3306/mtload-task-master?useUnicode=true&characterEncoding=utf8
+      url: jdbc:mysql://192.168.7.11:3306/mtload?useUnicode=true&characterEncoding=utf8
       username: root
       password: mtload
       driverClassName: com.mysql.jdbc.Driver
@@ -60,15 +60,15 @@ spring:
   data:
     mongodb:
       database1:
-        host: 192.168.7.35
-        port: 40000
+        host: 192.168.7.16
+        port: 27017
         username: mtload
         password: mtload
-        database: mtload
+        database: mtloadpre
       database2:
-        host: 192.168.7.21
+        host: 192.168.7.11
         port: 27017
-        database: mtload
+        database: mtloadpre
         username: mtload
         password: mtload
   redis:
@@ -82,14 +82,14 @@ spring:
         test-on-return: true
         test-while-idle: true
     # 明姐测试pre用这个redis配置
-    redis-pre:
+    redis1:
       port: 6379
       timeout: 5000
       database: 0
-      hostName: 192.168.7.21
-    redis-tls:
+      hostName: 192.168.7.16
+    redis2:
       port: 6379
       timeout: 5000
       database: 0
-      hostName: 192.168.7.35
+      hostName: 192.168.7.11
 
