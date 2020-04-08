@@ -1,6 +1,7 @@
 package com.mt.tlstools.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mt.tlstools.pojo.Point;
 import com.mt.tlstools.pojo.ResponseMessage;
 import com.mt.tlstools.pojo.SendPreCommandPo;
 import com.mt.tlstools.pojo.SendPreCommandPoList;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,5 +60,15 @@ public class PreWriteController {
             return ResponseMessage.ok();
         }
         return ResponseMessage.fail(-1,"不支持在生产环境测试");
+    }
+    @RequestMapping("writeSinglePoint")
+    public ResponseMessage writeSinglePoint(@RequestBody Point point){
+        try {
+            preWriteService.writeSinglePoint(point);
+            return  ResponseMessage.ok();
+        }catch (Exception e){
+            return  ResponseMessage.fail(-1,e.getMessage());
+        }
+
     }
 }

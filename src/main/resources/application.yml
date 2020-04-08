@@ -1,3 +1,14 @@
 spring:
   profiles:
-    active: dev
+    active: prod
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+  security:
+    http:
+    basic:
+      enabled: true
+    user:
+      name: mtload
+      password: mtload
+      role: USER      #认证角色

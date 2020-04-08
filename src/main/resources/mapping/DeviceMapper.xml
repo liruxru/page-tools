@@ -5,4 +5,28 @@
     <select id="selectDevices" resultType="com.mt.tlstools.pojo.Device">
         select * from test_device
     </select>
+    <select id="selectPoints" resultType="com.mt.tlstools.pojo.Point">
+     select * from test_point where device_id in
+
+        <foreach collection="array" open="(" close=")" separator="," item="item">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </select>
+    <select id="selectOnlyReadPoints" resultType="com.mt.tlstools.pojo.Point">
+        select * from test_point where device_id in
+
+        <foreach collection="array" open="(" close=")" separator="," item="item">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+        and point_type = 0 order by sort
+    </select>
+    <select id="selectReadWritePoints" resultType="com.mt.tlstools.pojo.Point">
+        select * from test_point where device_id in
+
+        <foreach collection="array" open="(" close=")" separator="," item="item">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+        and point_type = 1 order by sort
+    </select>
+
 </mapper>

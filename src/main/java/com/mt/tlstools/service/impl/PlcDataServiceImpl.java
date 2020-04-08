@@ -6,11 +6,14 @@ import com.mt.tlstools.corecache.CacheLoadLine2;
 import com.mt.tlstools.mapper.src.DeviceMapper;
 import com.mt.tlstools.pojo.Device;
 import com.mt.tlstools.pojo.ImportantData;
+import com.mt.tlstools.pojo.Point;
 import com.mt.tlstools.service.PlcDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PlcDataServiceImpl implements PlcDataService {
@@ -49,5 +52,38 @@ public class PlcDataServiceImpl implements PlcDataService {
     public List<Device> devices() {
         return deviceMapper.selectDevices();
 
+    }
+
+
+    @Override
+    public Map<String, List<Point>> points(int[] deviceIds, String loadLine) {
+        Map<String,List<Point>> data = new HashMap<>();
+        List<Point> roPoints = deviceMapper.selectOnlyReadPoints(deviceIds);
+        if(ConstantConfig.LOAD_LINE_01.equals(loadLine)){
+            for (Point point : roPoints) {
+              point.setPointValue(cacheLoadLine1.getValueById(point.getPointId()));
+              point.setLoadLine(ConstantConfig.LOAD_LINE_01);
+            }
+        }else if(ConstantConfig.LOAD_LINE_02.equals(loadLine)){
+            for (Point point : roPoints) {
+                point.setPointValue(cacheLoadLine2.getValueById(point.getPointId()));
+                point.setLoadLine(ConstantConfig.LOAD_LINE_02);
+            }
+        }
+        data.put("or",roPoints);
+        List<Point> wrPoints = deviceMapper.selectReadWritePoints(deviceIds);
+        if(ConstantConfig.LOAD_LINE_01.equals(loadLine)){
+            for (Point point : wrPoints) {
+                point.setPointValue(cacheLoadLine1.getValueById(point.getPointId()));
+                point.setLoadLine(ConstantConfig.LOAD_LINE_01);
+            }
+        }else if(ConstantConfig.LOAD_LINE_02.equals(loadLine)){
+            for (Point point : wrPoints) {
+                point.setPointValue(cacheLoadLine2.getValueById(point.getPointId()));
+                point.setLoadLine(ConstantConfig.LOAD_LINE_02);
+            }
+        }
+        data.put("wr",wrPoints);
+        return data;
     }
 }
